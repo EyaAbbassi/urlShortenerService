@@ -40,45 +40,76 @@ class testUrlRepository(unittest.TestCase):
         base_url = self.repo.get_base_URL()
         self.assertEqual(result, len(base_url))
 
-    def test_is_exist_key(self, key="custom"):
-        print("test_is_exist_key\n")
+    def test_is_exist_key_should_return_True(self):
+        print("test_is_exist_key_should_return_True\n")
+        key = "custom"
         result = self.repo.is_exist_key(key)
         self.assertTrue(result)
+
+    def test_is_exist_key_should_return_False(self):
+        print("test_is_exist_key_should_return_False\n")
         key = "RTY78U52"
         result = self.repo.is_exist_key(key)
         self.assertFalse(result)
 
-    def test_is_exist_url(self, url="https://mail.google.com/"):
-        print("test_is_exist_url\n")
+    def test_is_exist_url_where_url_exist_should_return_True(self):
+        print("test_is_exist_url_where_url_exist_should_return_True\n")
+        url = "https://mail.google.com/"
         result = self.repo.is_exist_url(url)
         self.assertTrue(result)
-        unavailable_url = "https://seanprashad.com/leetcode-patterns/"
-        result = self.repo.is_exist_key(unavailable_url)
+
+    def test_is_exist_url_where_url_doesnt_exist_should_return_False(self):
+        print("test_is_exist_url_where_url_doesnt_exist_should_return_False\n")
+        url = "https://seanprashad.com/leetcode-patterns/"
+        result = self.repo.is_exist_key(url)
         self.assertFalse(result)
 
-    def test_get_long_URL(self, short_key="custom"):
-        print("test_get_long_URL\n")
+    def test_get_long_URL_where_short_url_exist_should_return_correspond_origin_url(self):
+        print(
+            "test_get_long_URL_where_short_url_exist_should_return_correspond_origin_url\n")
+        short_key = "custom"
         result_exist = self.repo.get_long_URL(short_key)
-        result_notFound = self.repo.is_exist_key("https://instagram.com/")
         self.assertEqual(
             result_exist, "https://calendar.google.com/calendar/u/0/r/week")
+
+    def test_get_long_URL_where_short_url_doesnt_exist_should_return_None(self):
+        print(
+            "test_get_long_URL_where_short_url_doesnt_exist_should_return_correspond_origin_url\n")
+        result_notFound = self.repo.is_exist_key("https://instagram.com/")
         self.assertFalse(result_notFound)
 
-    def test_get_short_URL(self, original_url="https://mail.google.com/"):
-        print("test_get_short_URL\n")
+    def test_get_short_URL_where_long_url_exist_should_return_correspond_short_url(self):
+        print(
+            "test_get_long_URL_where_short_url_doesnt_exist_should_return_correspond_origin_url\n")
+        original_url = "https://mail.google.com/"
         result_exist = self.repo.get_short_URL(original_url)
-        result_notFound = self.repo.is_exist_key("test")
         self.assertEqual(result_exist, "http://short.ner/q4QFrylh")
+
+    def test_get_short_URL_where_long_url_doesnt_exist_should_return_None(self):
+        print(
+            "test_get_short_URL_where_long_url_doesnt_exist_should_return_None\n")
+        result_notFound = self.repo.is_exist_key("test")
         self.assertFalse(result_notFound)
 
-    def test_save_url(self, url="https://www.instagram.com/", generated_key="8PM4Hyz8"):
-        print("test_save_url\n")
-        self.mockData.long_to_short[url] = self.mockData.base_URL + \
-            generated_key
-        self.mockData.short_to_long[generated_key] = url
-        result = self.repo.is_exist_key(
+    def test_save_data_where_inputs_doesnt_exist(self):
+        print("test_save_data_where_inputs_doesnt_exist\n")
+        url = "https://www.instagram.com/"
+        generated_key = "8PM4Hyz8"
+        url_and_key_exist = self.repo.is_exist_key(
             generated_key) and self.repo.is_exist_url(url)
+        if not url_and_key_exist:
+            result = self.repo.save_url(url, generated_key)
         self.assertTrue(result)
+
+    def test_save_data_where_inputs_are_valid_should_return_None(self):
+        print("test_save_data_where_inputs_are_valid_should_return_nothing\n")
+        url = "https://mail.google.com/"
+        generated_key = "q4QFrylh"
+        url_and_key_exist = self.repo.is_exist_key(
+            generated_key) and self.repo.is_exist_url(url)
+        if url_and_key_exist:
+            result = self.repo.save_url(url, generated_key)
+        self.assertEqual(result, None)
 
 
 if __name__ == '__main__':

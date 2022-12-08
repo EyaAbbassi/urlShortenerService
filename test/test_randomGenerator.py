@@ -26,16 +26,11 @@ class testUrlRepository(unittest.TestCase):
     def tearDown(self):  # run after each test case ###
         print("tearDown\n")
 
-    def test_generate_random_key(self):
+    def test_generate_random_key_length(self):
         print("test_generate_random_key\n")
         generated_random = self.randomGenerator.generate_random_key()
-        existing_random = "q4QFrylh"
-        len_generated = len(generated_random)
-        result_generated = self.repo.is_exist_key(generated_random)
-        result_existing = self.repo.is_exist_key(existing_random)
-        self.assertFalse(result_generated)
-        self.assertTrue(result_existing)
-        self.assertEqual(len_generated, self.num_of_chars)
+        generated_key_length = len(generated_random)
+        self.assertEqual(generated_key_length, self.num_of_chars)
 
 
 if __name__ == '__main__':
