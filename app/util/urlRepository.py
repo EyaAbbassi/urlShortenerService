@@ -47,7 +47,7 @@ class Repository:
     def save_url(self, url, key):
         if self.is_exist_key(key) and self.is_exist_url(url):
             return
-        elif self.is_exist_url(url) and key:
+        elif self.is_exist_url(url):
             old_short_url = self.get_short_URL(url)
             old_key = self.get_key(old_short_url)
             del self.data.short_to_long[old_key]

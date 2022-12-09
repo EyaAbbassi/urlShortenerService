@@ -16,6 +16,13 @@
 
 - [About](#about)
 - [System Design](#system_design)
+- [Getting Started](#getting_started)
+- [Usage](#usage)
+- [Built Using](#built_using)
+- [TODO](../TODO.md)
+- [Contributing](../CONTRIBUTING.md)
+- [Candidate](#candidate)
+- [Acknowledgments](#acknowledgement)
 
 ## 🧐 About <a name = "about"></a>
 
@@ -144,8 +151,122 @@ Our service is an effective service with multiple advantages. Our design of the 
 <b>Area of improvement</b>:<br>
 
 <ul>
-<li>- More restriction on the custom_key suggested by the users to avoid special characters, and condused Links.</li>
-<li>- Upgrade the encoding method toensure security by adding the user_id which is private and unique as encoding key for example that we can use with other Encoding Algorithm such as Advanced Encryption Standard (AES).</li>
-<li>- Add more control on the generated short URL, that must always be shorter or equal than the original one. It won't be a shortening service if we will give a taller "short_url".</li>
+<li> More restriction on the custom_key suggested by the users to avoid special characters, and condused Links.</li>
+<li> Upgrade the encoding method toensure security by adding the user_id which is private and unique as encoding key for example that we can use with other Encoding Algorithm such as Advanced Encryption Standard (AES).</li>
+<li> Add more control on the generated short URL, that must always be shorter or equal than the original one. It won't be a shortening service if we will give a taller "short_url".</li>
 <li>...Always open to improve and escalate according to the business and clients/users needs.</li>
 </ul>
+
+## 🏁 Getting Started <a name = "getting_started"></a>
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. To settle in the app directory:
+
+```
+cd APP
+```
+
+### Prerequisites
+
+To install and run our shortening service, make sure you have Python3 installed, we also need Flask.
+
+### Installing
+
+To get a development env running, you should install the requirements.
+
+```
+pip install requirements.txt
+```
+
+Then you can configure our application by running these cmd lines. For Windows users use <b>set</b> otherwise use <b>export</b>.
+
+```
+set FLASK_APP=run.py
+```
+
+```
+set FLASK_ENV=development
+```
+
+Now, let’s run our application
+
+```
+python -m flask run
+```
+
+This starts the service in debug mode, Running on http://127.0.0.1:5000/.
+
+We recommend testing using Postman, so you can follow the data flow and test all the cases, since for each request we are entering data JSON through the body. Thinking about putting the URL in the Param can crash the flow due to the special characters one URL can have.
+
+## 🔧 Running the tests <a name = "tests"></a>
+
+For test automation, I used the unittest framework.
+To run the tests, try this line
+
+```
+python -m unittest discover test
+```
+
+### Break down into end to end tests
+
+To test our app, we made 3 test modules:
+
+<ul>
+<li><b>test urlRepository</b>: <br>
+In these tests, we are checking for each helper function in the repository the output is valid or not. Naming some of the functions from the urlRepository:
+<ul>
+<li>is_exist_key/url: To check if the key or url exists in our storage or not to avoid duplications.
+</li>
+<li>get_short or get_long URL: The functions to get the needed URL, whether the short or the original URL from the storage and it existence should be tested first.</li>
+<li>save_url: Using this function to check if the key and the url exists already in the storage then so nothing because it is saved, if the original url exists and comes along with a new custom key then we should update it and delete the old one. And in the ordinary case, the url and the key will be saved in the storage for future purposes. 
+</li>
+</ul>
+Testing all these functions and more others by checking the input to be as expected.
+</li>
+<li><b>test randomGenerator</b>:<br>
+In this unit test we are checking the function responsible for generating a random key, one of the test this function do is after generating a key, it check out if it does exist in the storage, if it does then it will keep on rolling until it receive an unique one, this is to ensure uniqueness and avoid conflict.<br>
+When it comes to testing we are just testing the length of the generated key if it is equal that what we are asked to do. Testing at random is ridiculous because counting the probability of getting the same generated key is so low and it won't test the efficiency of the function.</li>
+<li><b>test urlController</b>:<br>
+In this case we are testing the two endpoints /encode, and /decode. For each endpoint, multiple test on how the system should behave in which case and what it should return as response and handling error, all of these features are tested. Listin some testing made for each endpoints:
+<ul>
+<li><b>/encode</b>:<br>
+<ol>
+<li>Test with Valid long URL Input that should return Ok, after being saved in the storage.</li>
+<li>Test with valid long URL, and custom key that should also return OK, 200. </li>
+<li>Test with an empty input long URL, should return BAD REQUEST, 400.</li>
+<li>Test with an unvalid input long URL, should return BAD REQUEST, 400.</li>
+<li>...</li>
+</ol>
+</li>
+<li><b>/decode</b>:<br>
+<ol>
+<li>Test with existing short URL that should return Ok, after returning the associated Original URL.</li>
+<li>Test with an empty short URL, should also return BAD REQUEST, 400. </li>
+<li>Test with non existing short URL, should return NOT FOUND, 404.</li>
+<li>Test with an unvalid short URL, should return BAD REQUEST, 400.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+## 🎈 Usage <a name="usage"></a>
+
+<p>A quick note about unit test, when testing the update feature of an existing long URL with custom key, it will show 404 NOT FOUND at first so one unit test will fail at the first try which is OKAY, in this case. Because we are testing if th long URL exist while we still don't have storage yet. Which explain why all the tests pass in the second try because the URL we are testing with is now stored so it is FOUND, and then updated so it will return 200, OK.<br>
+Let's count it as a test for the unit test and it shows that it is a trustworthy enough XD.</p>
+## ⛏️ Built Using <a name = "built_using"></a>
+
+- [Flask](https://palletsprojects.com/p/flask/) - Web application Framework.
+- [unittest](https://docs.python.org/3/library/unittest.html) - Unit testing framework.
+
+## ✍️ Candidate <a name = "candidate"></a>
+
+- [@EyaAbbassi](https://www.linkedin.com/in/eya-abbassi/)
+- [Leetcode-Account](https://leetcode.com/Eya_Abbassi/)
+- [Github-Account](https://github.com/EyaAbbassi)
+
+## 🎉 Acknowledgements <a name = "acknowledgement"></a>
+
+- So much appreciation to [FINN.auto](https://www.finn.auto/), for giving me this opportunity to expand my knowledge and challenge myself within a range of time. And Thanks to The FINN GmbH Team for taking the time to evaluate my humble work.
+- Hat tip to [Uncle Bob](https://fr.wikipedia.org/wiki/Robert_C._Martin), who taught us a lot about clean code and best practices.
+- To all the programmers who post resources on the Internet, you are inspiring and supporting us.
+- To [Leetcode](leetcode.com), with which I improved my problem solving skills and became better at Data Structures and Algorithms.
