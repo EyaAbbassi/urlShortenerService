@@ -39,6 +39,27 @@ class testUrlRepository(unittest.TestCase):
         result = self.repo.get_len_base_URL()
         base_url = self.repo.get_base_URL()
         self.assertEqual(result, len(base_url))
+    #
+
+    def test_get_key_should_return_Key(self):
+        short_url = "http://short.ner/q4QFrylh"
+        result = self.repo.get_key(short_url)
+        self.assertEqual(result, "q4QFrylh")
+
+    def test_get_key_where_url_invalid_should_return_None(self):
+        short_url = "http://short.ner/"
+        result = self.repo.get_key(short_url)
+        self.assertEqual(result, None)
+
+    def test_is_valid_where_url_is_valid_should_return_True(self):
+        short_url = "http://short.ner/q4QFrylh"
+        result = self.repo.is_valid_short_url(short_url)
+        self.assertTrue(result)
+
+    def test_is_valid_where_url_is_not_valid_should_return_False(self):
+        short_url = "http://short.n"
+        result = self.repo.is_valid_short_url(short_url)
+        self.assertFalse(result)
 
     def test_is_exist_key_should_return_True(self):
         print("test_is_exist_key_should_return_True\n")

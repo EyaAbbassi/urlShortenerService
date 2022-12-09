@@ -80,7 +80,6 @@ class testUrlRepository(unittest.TestCase):
 
     def test_decodeAPI_with_unvalid_short_url_should_return_BAD_REQUEST(self):
         print("test_decodeAPI_with_unvalid_short_url_should_return_BAD_REQUEST\n")
-        # correct input with custom key
         data = {"short_url": "http://short.ner/"}
         request = requests.get(self.decodeUrl, json=data)
         self.assertEqual((request.status_code, request.reason),
