@@ -175,7 +175,19 @@ To install and run our shortening service, make sure you have Python3 installed,
 
 ### Installing
 
-To get a development env running, you should install the requirements.
+To get a development env running, you should install the requirements. Before that we must create a virtual enviorment, let's name it env and then activate it.
+
+```
+python -m venev env
+```
+
+To activate it, should access PowerShell, and Run as administrator and try to activate it, in our case we run
+
+```
+env/Scripts/activate
+```
+
+Now you can install the requirements
 
 ```
 pip install -r requirements.txt
