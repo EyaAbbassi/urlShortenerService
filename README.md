@@ -20,6 +20,7 @@
 - [Usage](#usage)
 - [Folder/File Structure](#folder/file_structure)
 - [Built Using](#built_using)
+- [Demo Link](#demo_link)
 - [Candidate](#candidate)
 - [Acknowledgments](#acknowledgement)
 
@@ -52,9 +53,9 @@ We lose the originality of our brand. Many brands using the same service get sho
  
 ## 🚀 System Design <a name = "system_design"></a>
  
-Before jumping into development, we took the time to focus on the <b>Requirements</b> [<i>the functional and non-functional requirements</i>], for more clarity, it is better to have realistic estimations at the start. For instance, we don't have a lot to tell at this point but I am willing to learn more in depth about it. Yet we recongnize the importance of this step for the future of the service, from Storage estimation, to Query rate estimation, Bandwidth estimation, then Memory estimation, to finally estimate the Number of Servers. According to this challenge we were asked to not persist short URLs to a database. and just keep them in memory. For that reason, we will be using Hashmap to store in the memory, which is the most accurate and efficient data structure in this case.
+Before jumping into development, we took the time to focus on the <b>Requirements</b> [<i>the functional and non-functional requirements</i>], for more clarity, it is better to have realistic estimations at the start. For instance, we don't have a lot to tell at this point but we are willing to learn more in depth about it. Yet we recongnize the importance of this step for the future of the service, from Storage estimation, to Query rate estimation, Bandwidth estimation, then Memory estimation, to finally estimate the Number of Servers. According to this challenge we were asked to not persist short URLs to a database. and just keep them in memory. For that reason, we will be using Hashmap to store in the memory, which is the most accurate and efficient data structure in this case.
 Next, to fill up the whole big picture, more explanation about the <b>Design</b> should take place, to check the endpoints and the data flow between components. In case we are escalating, we can always return and adjust it from there.
-Now, we can dive deeper, through the inner mechanism of the <b>Encode</b>, stating the reason we use it along with the mathematical explanation. Finally, we can reflect on all of that with a <b>conclusion</b> and add the area of improvement. Due to the restriction of time.<br>
+Now, we can dive deeper, through the inner mechanism of the <b>Encode</b>, stating the reason we use it along with the mathematical explanation. Finally, we can reflect on all of that with a <b>conclusion</b> and add the area of improvement.<br>
 <i>Funny but honest fact, it is my first time working on web development using Python, I usually use python for coding, data structures and Algorithms and creating notebook for machine learning and research purpose. Yet, I enjoyed every second working on this project and walking through the System design phase helped me a lot implementing the solution, which will be always open to improvement.</i><br>
 Now let's drive into details:
 ### Requirements of shortening service
@@ -94,7 +95,7 @@ To encode the original URL and create a unique short one, we sent a POST request
 <li><b>“custom_id”-Optional</b>: The optional key that the user defines as a customer short key for the new URL.</li>
 </ul>
 <p>
-A successful insertion returns a JSON with the shortened URL. If the input URL already stored but we got a custom_id as an input, here is when a user try to update the stored generate Short URL. In this case, we update the corresponding Short URL and Delete this old one. Otherwise, the system returns an appropriate error code to the user.
+A successful insertion returns a JSON with the shortened URL. If the input URL already stored but we got a custom_id as an input, here is when a user try to update the stored generated Short URL. In this case, we update the corresponding Short URL and Delete this old one. Otherwise, the system returns an appropriate error code to the user.
 </p>
 
 ##### Decode
@@ -123,12 +124,12 @@ Else, generate a random key to create a unique short url for the input URL. Upon
 </i>
 
 <li>
-<b>Custom short links</b>: This task begins with checking the length, the maximum length allowed is 8 alphanumeric digits. Once verified, the system checks its availability in the database. If the requested cutom_key doesn’t exist, the user receives a successful short URL, or an error message in the opposite case.
+<b>Custom short links</b>: This task begins with checking the system about its availability in the database. If the requested cutom_key doesn’t exist, the user receives a successful response with a short URL with their custom key, or an error message in the opposite case depend on the situation.
 </li>
 
 <li>
-<b>Decode</b>: Upon receiving the decode request, check the storage units (caching system and database) for the required record of the short url. If found, the application server returns the associated original URL.<br>
-<i>Here we need the second hashmap with generated/cutom_ key as a key and the original_url as a value. The access/search will cost less -O(1) for time complexity.</i>
+<b>Decode</b>: Upon receiving the decode request, check the storage units (caching system and database/ in our case, we check the hashmap with the generated/custom key as key and the original url as a value) for the required record of the short url. If found, the application server returns the associated original URL. Or an error message in the opposite case depend on the situation.<br>
+<i>Here we need the second hashmap with generated/cutom_ key as a key and the original_url as a value. The access/search will cost less.-O(1) for time complexity.</i>
 </li>
 
 ### Encode
@@ -140,8 +141,8 @@ Since we don’t have any restriction about how we can encode, we can go with us
 
 ### Conclusion
 
-Our service is an effective service with multiple advantages. Our design of the URL shortening service is simple, yet it fulfills all the requirements of a performant design.<br>
-The point here is that url security/predictability is not very important. Collision detection is important, and our service we nesure that by randomizing generated values ​​and check its existence for uniqueness. The key features offered by our design are:
+Our service is an effective service with multiple advantages. Our design is simple, yet it fulfills all the requirements of a performant design and production-ready.<br>
+The point here is that url security/predictability is not very important. Collision detection is important, and our service we ensure that by randomizing generated values ​​and check its existence for uniqueness. The key features offered by our design are:
 
 <ul>
 <li>A dynamic short URL range.</li>
@@ -154,8 +155,8 @@ The point here is that url security/predictability is not very important. Collis
 Our service uses an in-memory dictionary to represent all shortened URLs. In a real large-scale scenario, something more outlandish will be required. This also affects the way we determine if a hash is unique. There are other room of improvement such as:
 
 <ul>
-<li> More restriction on the custom_key suggested by the users to avoid special characters, and condused Links.</li>
-<li> Upgrade the encoding method toensure security by adding the user_id which is private and unique as encoding key for example that we can use with other Encoding Algorithm such as Advanced Encryption Standard (AES).</li>
+<li> More restriction on the custom_key suggested by the users to avoid special characters, and confusing Links.</li>
+<li> Upgrade the encoding method to ensure security by adding the user_id which is private and unique as encoding key for example; that we can use with other Encoding Algorithm such as md5.</li>
 <li> Add more control on the generated short URL, that must always be shorter or equal than the original one. It won't be a shortening service if we will give a taller "short_url".</li>
 <li>...Always open to improve and escalate according to the business and clients/users needs.</li>
 </ul>
@@ -198,11 +199,12 @@ python -m flask run
 
 This starts the service in debug mode, Running on http://127.0.0.1:5000/.
 
-We recommend testing using Postman, so you can follow the data flow and test all the cases, since for each request we are entering data JSON through the body. Thinking about putting the URL in the Param can crash the flow due to the special characters one URL can have.
+We recommend testing using Postman, so you can follow the data flow and test all the cases with using both endpoints http://127.0.0.1:5000/enocde, and http://127.0.0.1:5000/decode.<br>
+Since for each request we are entering data JSON through the body. Thinking about putting the URL in the params can crash the flow due to the special characters one URL can have.
 
 ## 🔧 Running the tests <a name = "tests"></a>
 
-For test automation, I used the unittest framework. When running the test you should keep the server running too, because when testing the Endpoints we are sending request to check if we get the desired response or not.
+For test automation, we used the unittest framework. When running the test you should keep the server running too, because when testing the Endpoints we are sending requests to check if we get the desired response or not.
 To run all the tests, try this line
 
 ```
@@ -252,10 +254,10 @@ In this case we are testing the two endpoints /encode, and /decode. For each end
 <ul>
 <li><b>/encode</b>:<br>
 <ol>
-<li>Test with Valid long URL Input that should return Ok, after being saved in the storage.</li>
+<li>Test with Valid long URL that should return Ok, after being saved in the storage.</li>
 <li>Test with valid long URL, and custom key that should also return OK, 200. </li>
-<li>Test with an empty input long URL, should return BAD REQUEST, 400.</li>
-<li>Test with an unvalid input long URL, should return BAD REQUEST, 400.</li>
+<li>Test with an empty long URL, should return BAD REQUEST, 400.</li>
+<li>Test with an unvalid long URL, should return BAD REQUEST, 400.</li>
 <li>...</li>
 </ol>
 </li>
@@ -271,10 +273,12 @@ In this case we are testing the two endpoints /encode, and /decode. For each end
 </li>
 </ul>
 
-## 🎈 Usage <a name="usage"></a>
+## 🎈 Quick note and Demo about running the test <a name="usage"></a>
 
 <p>A quick note about unit test, when testing the update feature of an existing long URL with custom key, it will show 404 NOT FOUND at first so one unit test will fail at the first try which is OKAY, in this case. Because we are testing if th long URL exist while we still don't have storage yet. Which explain why all the tests pass in the second try because the URL we are testing with is now stored so it is FOUND, and then updated so it will return 200, OK.<br>
 Let's count it as a test for the unit test and it shows that it is a trustworthy enough XD.</p>
+
+- [Demo](https://drive.google.com/file/d/1YXx0niJElaA0VZh8yPwaplXtOnuN-XGs/view?usp=drivesdk)
 
 ## Folder/file Structure <a name="folder/file_structure"></a>
 
@@ -352,6 +356,10 @@ app > run.py : The entry point of our project.
 
 - [Flask](https://palletsprojects.com/p/flask/) - Web application Framework.
 - [unittest](https://docs.python.org/3/library/unittest.html) - Unit testing framework.
+
+## 🖐🖐🖐 Demo Link <a name = "demo_link"></a> 🖐🖐🖐
+
+- [Drive link](https://drive.google.com/file/d/1YX9CW4xvcUceAexHvGVMe2-Ety9FxeUL/view?usp=sharing)
 
 ## ✍️ Candidate <a name = "candidate"></a>
 
