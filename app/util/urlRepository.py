@@ -1,5 +1,5 @@
-from flask import jsonify
 from app import database
+from app.util import RandomGenerator
 
 
 class Repository:
@@ -15,7 +15,14 @@ class Repository:
 
     def get_key(self, short_url):
         base_url_len = self.get_len_base_URL()
-        return short_url[base_url_len:]
+        if len(short_url) > base_url_len:
+            return short_url[base_url_len:]
+        return None
+
+    def is_valid_short_url(self, short_url):
+        if self.get_key(short_url):
+            return True
+        return False
 
     def is_exist_key(self, key):
         if key in self.data.short_to_long:
@@ -37,15 +44,15 @@ class Repository:
             return self.data.long_to_short[original_url]
         return None
 
-    def save_url(self, url: str, generated_key: str):
-        if self.is_exist_key(generated_key) and self.is_exist_url(url):
+    def save_url(self, url, key):
+        if self.is_exist_key(key) and self.is_exist_url(url):
             return
-        if self.is_exist_url(url):
+        elif self.is_exist_url(url) and key:
             old_short_url = self.get_short_URL(url)
             old_key = self.get_key(old_short_url)
             del self.data.short_to_long[old_key]
             del self.data.long_to_short[url]
 
-        self.data.long_to_short[url] = self.data.base_URL + generated_key
-        self.data.short_to_long[generated_key] = url
+        self.data.long_to_short[url] = self.data.base_URL + key
+        self.data.short_to_long[key] = url
         return True

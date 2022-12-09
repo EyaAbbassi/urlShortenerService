@@ -50,16 +50,16 @@ class testUrlRepository(unittest.TestCase):
 
     def test_encodeAPI_with_existing_url_should_return_OK(self):
         print("test_encodeAPI_with_existing_url_should_return_OK\n")
-        # already existing url with custom key => still return the one in database without update
+        # already existing url with custom key => should be updated
         data = {"long_url": "https://www.google.com/docs", "custom_id": ""}
         request = requests.post(self.url, json=data)
         self.assertEqual(
             (request.status_code, request.reason), (200, "OK"))
 
-    def test_encodeAPI_with_existing_url_and_custom_key_should_return_OK(self):
-        print("test_encodeAPI_with_existing_url_and_custom_key_should_return_OK\n")
+    def test_encodeAPI_with_existing_url_and_added_key_should_be_update_then_return_OK(self):
+        print("test_encodeAPI_with_existing_url_and_added_key_should_be_update_then_return_OK\n")
         data = {"long_url": "https://www.google.com/docs",
-                "custom_id": "keyIgnored"}
+                "custom_id": "upda7e6"}
         request = requests.post(self.url, json=data)
         self.assertEqual(
             (request.status_code, request.reason), (200, "OK"))
