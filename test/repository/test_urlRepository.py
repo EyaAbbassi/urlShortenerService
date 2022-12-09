@@ -101,7 +101,7 @@ class testUrlRepository(unittest.TestCase):
             result = self.repo.save_url(url, generated_key)
         self.assertTrue(result)
 
-    def test_save_data_where_inputs_are_valid_should_return_None(self):
+    def test_save_data_where_inputs_does_exist_should_return_None(self):
         print("test_save_data_where_inputs_are_valid_should_return_nothing\n")
         url = "https://mail.google.com/"
         generated_key = "q4QFrylh"
@@ -110,6 +110,15 @@ class testUrlRepository(unittest.TestCase):
         if url_and_key_exist:
             result = self.repo.save_url(url, generated_key)
         self.assertEqual(result, None)
+
+    def test_save_data_where_cusomer_key_added_and_url_exist_should_be_updated(self):
+        print("test_save_data_where_inputs_are_valid_should_return_nothing\n")
+        url = "https://mail.google.com/"
+        key = "CuStom4"
+        self.repo.save_url(url, key)
+        result = self.repo.is_exist_key(key) and self.repo.is_exist_url(url)
+
+        self.assertTrue(result)
 
 
 if __name__ == '__main__':

@@ -28,8 +28,8 @@ class testUrlRepository(unittest.TestCase):
 
     def test_generate_random_key_length(self):
         print("test_generate_random_key\n")
-        generated_random = self.randomGenerator.generate_random_key()
-        generated_key_length = len(generated_random)
+        generated_key = self.randomGenerator.generate_random_key()
+        generated_key_length = len(generated_key)
         self.assertEqual(generated_key_length, self.num_of_chars)
 
 

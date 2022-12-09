@@ -10,26 +10,22 @@ url_tools = urlRepository.Repository()
 @app.route('/encode', methods=['POST'])
 def encode_url():
     original_url = request.json["long_url"]
-    custom_id = request.json['custom_id']
-    random_id = ""
+    key = request.json['custom_id']
 
     if not original_url:
         return jsonify({
-            'status': 'error',
+            'status': '400',
             'message': 'The URL is required!'
         }), 400
 
     if not validators.url(original_url):
         return jsonify({
-            'status': 'error',
+            'status': '400',
             'message': 'Please enter a valid URL!'
         }), 400
 
-    if url_tools.is_exist_url(original_url):
-        return jsonify(url_tools.get_short_URL(original_url))
+    if not key:
+        key = shortning_tools.generate_random_key()
 
-    if not custom_id:
-        random_id = shortning_tools.generate_random_key()
-
-    url_tools.save_url(original_url, random_id or custom_id)
+    url_tools.save_url(original_url, key)
     return jsonify(url_tools.get_short_URL(original_url))
