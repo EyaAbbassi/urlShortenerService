@@ -1,10 +1,11 @@
 from flask import jsonify, request
 import validators
 from app import app
-from app.util import RandomGenerator, urlRepository
+from app.util import Random_generator
+from app.repository import Url_repository
 
-shortning_tools = RandomGenerator.RandomGenerator()
-url_tools = urlRepository.Repository()
+shortning_tools = Random_generator.Random_generator()
+url_tools = Url_repository.Url_repository()
 
 
 @app.route('/encode', methods=['POST'])
@@ -48,7 +49,6 @@ def decode_url():
             'status': '400',
             'message': 'The URL is required!'
         }), 400
-    # check if short_url is valid
     is_valid = url_tools.is_valid_short_url(short_url)
     if not is_valid:
         return jsonify({
@@ -60,9 +60,6 @@ def decode_url():
 
     long_url = url_tools.get_long_URL(key)
     if not long_url:
-        return jsonify({
-            'status': '404',
-            'message': 'The URL not found!'
-        }), 404
+        return jsonify({'status': '404', 'message': 'The URL not found!'}), 404
     else:
         return jsonify(long_url)

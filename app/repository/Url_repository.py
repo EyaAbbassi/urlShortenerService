@@ -1,10 +1,10 @@
-from app import database
-from app.util import RandomGenerator
+from app.repository import Database as db
+from app.util import Random_generator
 
 
-class Repository:
+class Url_repository:
 
-    def __init__(self, data=database.Database()) -> None:
+    def __init__(self, data=db.Database()) -> None:
         self.data = data
 
     def get_base_URL(self):

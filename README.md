@@ -9,7 +9,7 @@
 
 <p align="center"> <b>Let's design a servicefor shortening the uniform resource locator (URL)</b>
     <br> 
-   URL shortening is a service that produces short aliases for long URLs, commonly referred to as short links. Upon clicking, these short links direct to the original URLs.
+   URL shortening is a service that produces short aliases for long URLs, commonly referred to as short links. Upon trigger, these short links direct to the original URLs.
 </p>
 
 ## 📝 Table of Contents
@@ -18,9 +18,8 @@
 - [System Design](#system_design)
 - [Getting Started](#getting_started)
 - [Usage](#usage)
+- [Folder/File Structure](#folder/file_structure)
 - [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
 - [Candidate](#candidate)
 - [Acknowledgments](#acknowledgement)
 
@@ -116,7 +115,7 @@ Keeping in view the functional requirements, the workflow of the abstract design
 
 <ol>
 <li>
-<b>Encode</b>: Each new request for short link computation checks the storage units (caching system and database) .
+<b>Encode</b>: Each new request for short link computation checks the storage units (caching system and database or the dictionary storage in our case) .
 If the input exists already two cases raise:<br>
 If the custom_key is not empty, update the associated short_url accordingly and delete the old one. Else, just return the existing short_url associated to the original URL.<br>
 Else, generate a random key to create a unique short url for the input URL. Upon successful generation of the short link, the system sends one copy back to the user and stores the record in the database for future use.<br>
@@ -141,14 +140,18 @@ Since we don’t have any restriction about how we can encode, we can go with us
 
 ### Conclusion
 
-Our service is an effective service with multiple advantages. Our design of the URL shortening service is simple, yet it fulfills all the requirements of a performant design. The key features offered by our design are:
+Our service is an effective service with multiple advantages. Our design of the URL shortening service is simple, yet it fulfills all the requirements of a performant design.<br>
+The point here is that url security/predictability is not very important. Collision detection is important, and our service we nesure that by randomizing generated values ​​and check its existence for uniqueness. The key features offered by our design are:
 
 <ul>
 <li>A dynamic short URL range.</li>
 <li>Improved readability.</li>
+<li>Ensure uniqueness.</li>
+
 </ul><br>
 
 <b>Area of improvement</b>:<br>
+Our service uses an in-memory dictionary to represent all shortened URLs. In a real large-scale scenario, something more outlandish will be required. This also affects the way we determine if a hash is unique. There are other room of improvement such as:
 
 <ul>
 <li> More restriction on the custom_key suggested by the users to avoid special characters, and condused Links.</li>
@@ -174,7 +177,7 @@ To install and run our shortening service, make sure you have Python3 installed,
 To get a development env running, you should install the requirements.
 
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 Then you can configure our application by running these cmd lines. For Windows users use <b>set</b> otherwise use <b>export</b>.
@@ -199,11 +202,30 @@ We recommend testing using Postman, so you can follow the data flow and test all
 
 ## 🔧 Running the tests <a name = "tests"></a>
 
-For test automation, I used the unittest framework.
-To run the tests, try this line
+For test automation, I used the unittest framework. When running the test you should keep the server running too, because when testing the Endpoints we are sending request to check if we get the desired response or not.
+To run all the tests, try this line
 
 ```
 python -m unittest discover test
+```
+
+or to test each one apart at a time try:<br>
+For testing randomGenerator
+
+```
+python -m unittest test/test_random_generator.py
+```
+
+To test url_repository:
+
+```
+python -m unittest test/test_url_repository.py
+```
+
+For API testing
+
+```
+python -m unittest test/test_url_controller.py
 ```
 
 ### Break down into end to end tests
@@ -253,6 +275,79 @@ In this case we are testing the two endpoints /encode, and /decode. For each end
 
 <p>A quick note about unit test, when testing the update feature of an existing long URL with custom key, it will show 404 NOT FOUND at first so one unit test will fail at the first try which is OKAY, in this case. Because we are testing if th long URL exist while we still don't have storage yet. Which explain why all the tests pass in the second try because the URL we are testing with is now stored so it is FOUND, and then updated so it will return 200, OK.<br>
 Let's count it as a test for the unit test and it shows that it is a trustworthy enough XD.</p>
+
+## Folder/file Structure <a name="folder/file_structure"></a>
+
+### Structure Scheme
+
+Following best practices advices, this is how we structured our Application.
+
+```
+__ APP
+ |
+ |__ app
+ |        |__ controller
+ |              |__ Url_controller.py
+ |
+ |        |__ repository
+ |              |__ Database.py
+ |              |__ Url_repository.py
+ |
+ |        |__ util
+ |              |__ Random_generator.py
+ |
+ |        |__ __init__.py
+ |
+ |__ env
+ |
+ |__ test
+ |        |__ test_random_generator.py
+ |        |__ test_url_controller.py
+ |        |__ test_url_repository.py
+ |
+ |__ README.md
+ |__ requirements.txt
+ |__ run.py
+```
+
+### Understanding the Folder/File structure
+
+```
+app : Holds all application folders and files.
+```
+
+```
+app > controller : Contains the controllers, it receives the requests and provides the response.
+```
+
+```
+app > repository : Contains the Database Module and Url_repository module, it communicate with the data storage directly and contain all all the helper function and database checks.
+```
+
+```
+app > util : Contains the url_generator Module, which is the logic of our service.
+```
+
+```
+app > __init__ : Used to mark directory on disk as Python package directory.
+```
+
+```
+app > env : Generated when creating a virtual enviorement.
+```
+
+```
+app > test : Contain all the testing modules, and with test_* for the naming.
+```
+
+```
+app > requirements.txt : Lists not only the packages necessary to run the code but also registers their respective versions.
+```
+
+```
+app > run.py : The entry point of our project.
+```
+
 ## ⛏️ Built Using <a name = "built_using"></a>
 
 - [Flask](https://palletsprojects.com/p/flask/) - Web application Framework.

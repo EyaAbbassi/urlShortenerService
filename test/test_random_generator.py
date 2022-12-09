@@ -1,9 +1,11 @@
 import unittest
-from app import database as db
-from app.util import RandomGenerator, urlRepository
+from app.repository import Database as db
+from app.util import Random_generator
+from app.repository import Url_repository
 
 
 class testUrlRepository(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):  # run once before all test cases ###
         print("setUpClass\n")
@@ -19,8 +21,8 @@ class testUrlRepository(unittest.TestCase):
             "custom": "https://calendar.google.com/calendar/u/0/r/week"
         }
         self.mockData = db.Database({}, self.short_to_long)
-        self.repo = urlRepository.Repository(self.mockData)
-        self.randomGenerator = RandomGenerator.RandomGenerator()
+        self.repo = Url_repository.Url_repository(self.mockData)
+        self.randomGenerator = Random_generator.Random_generator()
         self.num_of_chars = self.randomGenerator.num_of_chars
 
     def tearDown(self):  # run after each test case ###

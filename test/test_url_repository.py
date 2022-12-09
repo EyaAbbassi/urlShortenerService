@@ -1,9 +1,10 @@
 import unittest
-from app import database as db
-from app.util import urlRepository
+from app.repository import Database as db
+from app.repository import Url_repository
 
 
 class testUrlRepository(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):  # run once before all test cases ###
         print("setUpClass\n")
@@ -15,8 +16,10 @@ class testUrlRepository(unittest.TestCase):
     def setUp(self):  # run before each test case ###
         print("setUp\n")
         self.long_to_short = {
-            "https://mail.google.com/": "http://short.ner/q4QFrylh",
-            "https://calendar.google.com/calendar/u/0/r/week": "http://short.ner/custom"
+            "https://mail.google.com/":
+            "http://short.ner/q4QFrylh",
+            "https://calendar.google.com/calendar/u/0/r/week":
+            "http://short.ner/custom"
         }
         self.short_to_long = {
             "q4QFrylh": "https://mail.google.com/",
@@ -24,7 +27,7 @@ class testUrlRepository(unittest.TestCase):
         }
         self.base_URL = "http://short.ner/"
         self.mockData = db.Database(self.long_to_short, self.short_to_long)
-        self.repo = urlRepository.Repository(self.mockData)
+        self.repo = Url_repository.Url_repository(self.mockData)
 
     def tearDown(self):  # run after each test case ###
         print("tearDown\n")
@@ -39,6 +42,7 @@ class testUrlRepository(unittest.TestCase):
         result = self.repo.get_len_base_URL()
         base_url = self.repo.get_base_URL()
         self.assertEqual(result, len(base_url))
+
     #
 
     def test_get_key_should_return_Key(self):
@@ -85,30 +89,38 @@ class testUrlRepository(unittest.TestCase):
         result = self.repo.is_exist_key(url)
         self.assertFalse(result)
 
-    def test_get_long_URL_where_short_url_exist_should_return_correspond_origin_url(self):
+    def test_get_long_URL_where_short_url_exist_should_return_correspond_origin_url(
+            self):
         print(
-            "test_get_long_URL_where_short_url_exist_should_return_correspond_origin_url\n")
+            "test_get_long_URL_where_short_url_exist_should_return_correspond_origin_url\n"
+        )
         short_key = "custom"
         result_exist = self.repo.get_long_URL(short_key)
-        self.assertEqual(
-            result_exist, "https://calendar.google.com/calendar/u/0/r/week")
+        self.assertEqual(result_exist,
+                         "https://calendar.google.com/calendar/u/0/r/week")
 
-    def test_get_long_URL_where_short_url_doesnt_exist_should_return_None(self):
+    def test_get_long_URL_where_short_url_doesnt_exist_should_return_None(
+            self):
         print(
-            "test_get_long_URL_where_short_url_doesnt_exist_should_return_correspond_origin_url\n")
+            "test_get_long_URL_where_short_url_doesnt_exist_should_return_correspond_origin_url\n"
+        )
         result_notFound = self.repo.is_exist_key("https://instagram.com/")
         self.assertFalse(result_notFound)
 
-    def test_get_short_URL_where_long_url_exist_should_return_correspond_short_url(self):
+    def test_get_short_URL_where_long_url_exist_should_return_correspond_short_url(
+            self):
         print(
-            "test_get_long_URL_where_short_url_doesnt_exist_should_return_correspond_origin_url\n")
+            "test_get_long_URL_where_short_url_doesnt_exist_should_return_correspond_origin_url\n"
+        )
         original_url = "https://mail.google.com/"
         result_exist = self.repo.get_short_URL(original_url)
         self.assertEqual(result_exist, "http://short.ner/q4QFrylh")
 
-    def test_get_short_URL_where_long_url_doesnt_exist_should_return_None(self):
+    def test_get_short_URL_where_long_url_doesnt_exist_should_return_None(
+            self):
         print(
-            "test_get_short_URL_where_long_url_doesnt_exist_should_return_None\n")
+            "test_get_short_URL_where_long_url_doesnt_exist_should_return_None\n"
+        )
         result_notFound = self.repo.is_exist_key("test")
         self.assertFalse(result_notFound)
 
@@ -132,7 +144,8 @@ class testUrlRepository(unittest.TestCase):
             result = self.repo.save_url(url, generated_key)
         self.assertEqual(result, None)
 
-    def test_save_data_where_cusomer_key_added_and_url_exist_should_be_updated(self):
+    def test_save_data_where_cusomer_key_added_and_url_exist_should_be_updated(
+            self):
         print("test_save_data_where_inputs_are_valid_should_return_nothing\n")
         url = "https://mail.google.com/"
         key = "CuStom4"
