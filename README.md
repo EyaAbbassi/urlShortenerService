@@ -56,7 +56,6 @@ We lose the originality of our brand. Many brands using the same service get sho
 Before jumping into development, we took the time to focus on the <b>Requirements</b> [<i>the functional and non-functional requirements</i>], for more clarity, it is better to have realistic estimations at the start. For instance, we don't have a lot to tell at this point but we are willing to learn more in depth about it. Yet we recongnize the importance of this step for the future of the service, from Storage estimation, to Query rate estimation, Bandwidth estimation, then Memory estimation, to finally estimate the Number of Servers. According to this challenge we were asked to not persist short URLs to a database. and just keep them in memory. For that reason, we will be using Hashmap to store in the memory, which is the most accurate and efficient data structure in this case.
 Next, to fill up the whole big picture, more explanation about the <b>Design</b> should take place, to check the endpoints and the data flow between components. In case we are escalating, we can always return and adjust it from there.
 Now, we can dive deeper, through the inner mechanism of the <b>Encode</b>, stating the reason we use it along with the mathematical explanation. Finally, we can reflect on all of that with a <b>conclusion</b> and add the area of improvement.<br>
-<i>Funny but honest fact, it is my first time working on web development using Python, I usually use python for coding, data structures and Algorithms and creating notebook for machine learning and research purpose. Yet, I enjoyed every second working on this project and walking through the System design phase helped me a lot implementing the solution, which will be always open to improvement.</i><br>
 Now let's drive into details:
 ### Requirements of shortening service
 #### Functional requirements
@@ -373,7 +372,7 @@ app > run.py : The entry point of our project.
 
 - [Drive link](https://drive.google.com/file/d/1YX9CW4xvcUceAexHvGVMe2-Ety9FxeUL/view?usp=sharing)
 
-## ✍️ Candidate <a name = "candidate"></a>
+## ✍️ Author <a name = "candidate"></a>
 
 - [@EyaAbbassi](https://www.linkedin.com/in/eya-abbassi/)
 - [Leetcode-Account](https://leetcode.com/Eya_Abbassi/)
@@ -381,7 +380,6 @@ app > run.py : The entry point of our project.
 
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 
-- So much appreciation to [FINN.auto](https://www.finn.auto/), for giving me this opportunity to expand my knowledge and challenge myself within a range of time. And Thanks to The FINN GmbH Team for taking the time to evaluate my humble work.
 - Hat tip to [Uncle Bob](https://fr.wikipedia.org/wiki/Robert_C._Martin), who taught us a lot about clean code and best practices.
 - To all the programmers who post resources on the Internet, you are inspiring and supporting us.
 - To [Leetcode](leetcode.com), with which I improved my problem solving skills and became better at Data Structures and Algorithms.
